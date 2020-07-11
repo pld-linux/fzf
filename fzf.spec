@@ -8,7 +8,7 @@ Release:	1
 License:	MIT
 Group:		Applications/Shells
 #Source0Download: https://github.com/junegunn/fzf/releases
-Source0:	https://github.com/junegunn/fzf/archive/v%{version}/%{name}-%{version}.tar.gz
+Source0:	https://github.com/junegunn/fzf/archive/%{version}/%{name}-%{version}.tar.gz
 # Source0-md5:	6c27760987032a0cf847caf61f8e7722
 # cd fzf-%{version}
 # go mod vendor
