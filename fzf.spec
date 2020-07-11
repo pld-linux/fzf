@@ -79,7 +79,7 @@ Documentation for fzf Vim plugin.
 %setup -q -b1
 
 %build
-%{__make}
+%{__make} GOFLAGS=-mod=vendor
 
 %install
 rm -rf $RPM_BUILD_ROOT
