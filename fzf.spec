@@ -4,7 +4,7 @@
 Summary:	A command-line fuzzy finder written in Go
 Name:		fzf
 Version:	0.21.1
-Release:	1
+Release:	2
 License:	MIT
 Group:		Applications/Shells
 #Source0Download: https://github.com/junegunn/fzf/releases
@@ -90,9 +90,9 @@ install -d $RPM_BUILD_ROOT%{_datadir}/vim/{doc,vimfiles/plugin}
 
 cp -p target/fzf-linux* $RPM_BUILD_ROOT%{_bindir}/fzf
 cp -p man/man1/fzf.1 $RPM_BUILD_ROOT%{_mandir}/man1
-cp -p shell/completion.bash $RPM_BUILD_ROOT%{bash_compdir}/fzf
+cp -p shell/completion.bash $RPM_BUILD_ROOT%{_datadir}/fzf
 cp -p shell/key-bindings.bash $RPM_BUILD_ROOT%{_datadir}/fzf
-cp -p shell/completion.zsh $RPM_BUILD_ROOT%{zsh_compdir}/_fzf
+cp -p shell/completion.zsh $RPM_BUILD_ROOT%{_datadir}/fzf
 cp -p shell/key-bindings.zsh $RPM_BUILD_ROOT%{_datadir}/fzf
 cp -p plugin/fzf.vim $RPM_BUILD_ROOT%{_datadir}/vim/vimfiles/plugin/fzf.vim
 cp -p doc/fzf.txt $RPM_BUILD_ROOT%{_datadir}/vim/doc/fzf.txt
@@ -115,12 +115,12 @@ rm -rf $RPM_BUILD_ROOT
 
 %files -n bash-completion-fzf
 %defattr(644,root,root,755)
-%{bash_compdir}/fzf
+%{_datadir}/fzf/completion.bash
 %{_datadir}/fzf/key-bindings.bash
 
 %files -n zsh-completion-fzf
 %defattr(644,root,root,755)
-%{zsh_compdir}/_fzf
+%{_datadir}/fzf/completion.zsh
 %{_datadir}/fzf/key-bindings.zsh
 
 %files -n vim-plugin-fzf
