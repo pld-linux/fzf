@@ -18,7 +18,7 @@ Source1:	%{name}-vendor-%{version}.tar.xz
 # Source1-md5:	897dd533480396c8e70459f96474b5a9
 URL:		https://github.com/junegunn/fzf
 BuildRequires:	golang >= 1.13
-ExclusiveArch:	%{x8664} arv5l armv6l armv7l armv8l aarch64 ppc64le
+ExclusiveArch:	%{x8664} armv5l armv6l armv7l armv8l aarch64 ppc64le
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %description
