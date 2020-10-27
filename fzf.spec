@@ -3,19 +3,19 @@
 # - package fzf-tmux
 Summary:	A command-line fuzzy finder written in Go
 Name:		fzf
-Version:	0.23.1
+Version:	0.24.0
 Release:	1
 License:	MIT
 Group:		Applications/Shells
 #Source0Download: https://github.com/junegunn/fzf/releases
 Source0:	https://github.com/junegunn/fzf/archive/%{version}/%{name}-%{version}.tar.gz
-# Source0-md5:	33fbd278f9301ff0b6641fab5ed2178e
+# Source0-md5:	2515a6f14eba36936ff05f00b684ee8d
 # cd fzf-%{version}
 # go mod vendor
 # cd ..
 # tar cJf fzf-vendor-%{version}.tar.xz fzf-%{version}/vendor
 Source1:	%{name}-vendor-%{version}.tar.xz
-# Source1-md5:	3a8a28dd39f9dac95627f0bcb910a16c
+# Source1-md5:	1e7b35161be8ea364e980a7477d77b0b
 URL:		https://github.com/junegunn/fzf
 BuildRequires:	golang >= 1.13
 ExclusiveArch:	%{x8664} armv5l armv6l armv7l armv8l aarch64 ppc64le
