@@ -2,7 +2,8 @@
 # - package vendored modules
 # - package fzf-tmux
 
-%define		fzfrev	 d4c9db0
+%define		fzfrev		 d4c9db0
+%define		fzfvimrev	 61c4b6d
 
 Summary:	A command-line fuzzy finder written in Go
 Name:		fzf
@@ -19,8 +20,11 @@ Source0:	https://github.com/junegunn/fzf/archive/%{version}/%{name}-%{version}.t
 # tar cJf fzf-vendor-%{version}.tar.xz fzf-%{version}/vendor
 Source1:	%{name}-vendor-%{version}.tar.xz
 # Source1-md5:	bb02d220d19826af17272dd46b5c787d
+Source2:	https://github.com/junegunn/fzf.vim/archive/%{fzfvimrev}/fzf.vim-%{fzfvimrev}.tar.gz
+# Source2-md5:	58fb5134601d7e964c9cf35d5f47eb67
 URL:		https://github.com/junegunn/fzf
 BuildRequires:	golang >= 1.13
+BuildRequires:	sed >= 4.0
 ExclusiveArch:	%{x8664} armv5l armv6l armv7l armv8l aarch64 ppc64le
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
@@ -58,8 +62,11 @@ zsh-completion for fzf.
 %package -n vim-plugin-fzf
 Summary:	fzf integration for Vim
 Group:		Applications/Editors/Vim
-Requires:	%{name} = %{version}-%{release}
+Requires:	%{name} >= 0.23.0
+Requires:	file
 Requires:	vim-rt
+Suggests:	highlight
+Suggests:	the_silver_searcher
 %if "%{_rpmversion}" >= "4.6"
 BuildArch:	noarch
 %endif
@@ -80,7 +87,11 @@ BuildArch:	noarch
 Documentation for fzf Vim plugin.
 
 %prep
-%setup -q -b1
+%setup -q -b1 -a2
+%{__mv} fzf.vim-%{fzfvimrev}* fzf.vim
+%{__sed} -i -e "s@let s:bin_dir = .*@let s:bin_dir = '%{_datadir}/fzf/vim/bin/'@" fzf.vim/autoload/fzf/vim.vim
+%{__sed} -i -e '1s,.*env bash,#!/bin/bash,' fzf.vim/bin/preview.sh
+%{__sed} -i -e '1s,.*env perl,#!%{__perl},' fzf.vim/bin/tags.pl
 
 %build
 %{__make} FZF_VERSION=%{version} FZF_REVISION=%{fzfrev} GOFLAGS=-mod=vendor
@@ -88,8 +99,8 @@ Documentation for fzf Vim plugin.
 %install
 rm -rf $RPM_BUILD_ROOT
 
-install -d $RPM_BUILD_ROOT{%{_bindir},%{_datadir}/fzf,%{_mandir}/man1,%{bash_compdir},%{zsh_compdir}}
-install -d $RPM_BUILD_ROOT%{_datadir}/vim/{doc,vimfiles/plugin}
+install -d $RPM_BUILD_ROOT{%{_bindir},%{_datadir}/fzf/vim/bin,%{_mandir}/man1,%{bash_compdir},%{zsh_compdir}}
+install -d $RPM_BUILD_ROOT%{_datadir}/vim/{doc,autoload,plugin/fzf}
 
 cp -p target/fzf-linux* $RPM_BUILD_ROOT%{_bindir}/fzf
 cp -p man/man1/fzf.1 $RPM_BUILD_ROOT%{_mandir}/man1
@@ -97,8 +108,11 @@ cp -p shell/completion.bash $RPM_BUILD_ROOT%{_datadir}/fzf
 cp -p shell/key-bindings.bash $RPM_BUILD_ROOT%{_datadir}/fzf
 cp -p shell/completion.zsh $RPM_BUILD_ROOT%{_datadir}/fzf
 cp -p shell/key-bindings.zsh $RPM_BUILD_ROOT%{_datadir}/fzf
-cp -p plugin/fzf.vim $RPM_BUILD_ROOT%{_datadir}/vim/vimfiles/plugin/fzf.vim
-cp -p doc/fzf.txt $RPM_BUILD_ROOT%{_datadir}/vim/doc/fzf.txt
+cp -rp fzf.vim/autoload/fzf $RPM_BUILD_ROOT%{_datadir}/vim/autoload
+cp -p plugin/fzf.vim $RPM_BUILD_ROOT%{_datadir}/vim/plugin/fzf.vim
+cp -p fzf.vim/plugin/fzf.vim $RPM_BUILD_ROOT%{_datadir}/vim/plugin/fzf/fzf.vim
+cp -p fzf.vim/doc/fzf-vim.txt $RPM_BUILD_ROOT%{_datadir}/vim/doc/fzf.txt
+cp -p fzf.vim/bin/{preview.sh,tags.pl} $RPM_BUILD_ROOT%{_datadir}/fzf/vim/bin
 
 %clean
 rm -rf $RPM_BUILD_ROOT
@@ -128,9 +142,14 @@ rm -rf $RPM_BUILD_ROOT
 
 %files -n vim-plugin-fzf
 %defattr(644,root,root,755)
-%doc README-VIM.md
-%defattr(644,root,root,755)
-%{_datadir}/vim/vimfiles/plugin
+%doc README-VIM.md fzf.vim/README.md
+%dir %{_datadir}/fzf/vim
+%dir %{_datadir}/fzf/vim/bin
+%attr(755,root,root) %{_datadir}/fzf/vim/bin/preview.sh
+%attr(755,root,root) %{_datadir}/fzf/vim/bin/tags.pl
+%{_datadir}/vim/autoload/fzf
+%{_datadir}/vim/plugin/fzf.vim
+%{_datadir}/vim/plugin/fzf
 
 %files -n vim-plugin-fzf-doc
 %defattr(644,root,root,755)
