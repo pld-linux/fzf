@@ -25,7 +25,7 @@ Source2:	https://github.com/junegunn/fzf.vim/archive/%{fzfvimrev}/fzf.vim-%{fzfv
 URL:		https://github.com/junegunn/fzf
 BuildRequires:	golang >= 1.13
 BuildRequires:	sed >= 4.0
-ExclusiveArch:	%{x8664} armv5l armv6l armv7l armv8l aarch64 ppc64le
+ExclusiveArch:	%{x8664} armv5l armv5tel armv5tejl armv6l armv6hl armv7l armv7hl armv7hnl armv8l armv8hll armv8hnl armv8hcnl aarch64 ppc64le
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %description
@@ -94,7 +94,25 @@ Documentation for fzf Vim plugin.
 %{__sed} -i -e '1s,.*env perl,#!%{__perl},' fzf.vim/bin/tags.pl
 
 %build
-%{__make} FZF_VERSION=%{version} FZF_REVISION=%{fzfrev} GOFLAGS=-mod=vendor
+%{__make} \
+%ifarch armv5tl armv5tel arm5tejl
+	UNAME_M=armv5l \
+%else
+%ifarch armv6l armv6hl
+	UNAME_M=armv6l \
+%else
+%ifarch armv7l armv7hl armv7hnl
+	UNAME_M=armv6l \
+%else
+%ifarch armv8l armv8hl armv8hnl armv8hcnl
+	UNAME_M=armv8l \
+%else
+	UNAME_M=%{_target_cpu} \
+%endif
+%endif
+%endif
+%endif
+	FZF_VERSION=%{version} FZF_REVISION=%{fzfrev} GOFLAGS=-mod=vendor
 
 %install
 rm -rf $RPM_BUILD_ROOT
