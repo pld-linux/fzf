@@ -40,9 +40,7 @@ Summary:	bash-completion for fzf
 Group:		Applications/Shells
 Requires:	%{name} = %{version}-%{release}
 Requires:	bash-completion >= 2.0
-%if "%{_rpmversion}" >= "4.6"
 BuildArch:	noarch
-%endif
 
 %description -n bash-completion-fzf
 bash-completion for fzf.
@@ -52,9 +50,7 @@ Summary:	zsh-completion for fzf
 Group:		Applications/Shells
 Requires:	%{name} = %{version}-%{release}
 Requires:	zsh
-%if "%{_rpmversion}" >= "4.6"
 BuildArch:	noarch
-%endif
 
 %description -n zsh-completion-fzf
 zsh-completion for fzf.
@@ -67,9 +63,7 @@ Requires:	file
 Requires:	vim-rt
 Suggests:	highlight
 Suggests:	the_silver_searcher
-%if "%{_rpmversion}" >= "4.6"
 BuildArch:	noarch
-%endif
 
 %description -n vim-plugin-fzf
 fzf integration for Vim.
@@ -79,9 +73,7 @@ Summary:	Documentation for fzf Vim plugin
 Group:		Applications/Editors/Vim
 Requires:	vim-plugin-fzf = %{version}-%{release}
 Requires:	vim-rt
-%if "%{_rpmversion}" >= "4.6"
 BuildArch:	noarch
-%endif
 
 %description -n vim-plugin-fzf-doc
 Documentation for fzf Vim plugin.
