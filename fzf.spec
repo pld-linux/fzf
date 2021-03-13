@@ -2,29 +2,32 @@
 # - package vendored modules
 # - package fzf-tmux
 
-%define		fzfrev		 8c533e3
-%define		fzfvimrev	 811b860
+%define		fzfrev		34fe5ab
+%define		fzfvimrev	711fb41
+%define		vendor_version	0.25.0
 
 Summary:	A command-line fuzzy finder written in Go
 Name:		fzf
-Version:	0.25.0
+Version:	0.26.0
 Release:	1
 License:	MIT
 Group:		Applications/Shells
 #Source0Download: https://github.com/junegunn/fzf/releases
 Source0:	https://github.com/junegunn/fzf/archive/%{version}/%{name}-%{version}.tar.gz
-# Source0-md5:	86745f576850b93105bb225abc1cb32f
+# Source0-md5:	879cb804fc39bccda31062a07ad58769
 # cd fzf-%{version}
 # go mod vendor
 # cd ..
 # tar cJf fzf-vendor-%{version}.tar.xz fzf-%{version}/vendor
-Source1:	%{name}-vendor-%{version}.tar.xz
+Source1:	%{name}-vendor-%{vendor_version}.tar.xz
 # Source1-md5:	9795b87b236a0541c74bb828f52fff14
 Source2:	https://github.com/junegunn/fzf.vim/archive/%{fzfvimrev}/fzf.vim-%{fzfvimrev}.tar.gz
-# Source2-md5:	f835095337927a017d27e33350e78392
+# Source2-md5:	1a4ec38922f1a9b0483d2c7b4a1cc1a9
 URL:		https://github.com/junegunn/fzf
 BuildRequires:	golang >= 1.13
 BuildRequires:	sed >= 4.0
+BuildRequires:	tar >= 1:1.22
+BuildRequires:	xz
 ExclusiveArch:	%{x8664} armv5l armv5tel armv5tejl armv6l armv6hl armv7l armv7hl armv7hnl armv8l armv8hll armv8hnl armv8hcnl aarch64 ppc64le
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
@@ -79,7 +82,8 @@ BuildArch:	noarch
 Documentation for fzf Vim plugin.
 
 %prep
-%setup -q -b1 -a2
+%setup -q -a1 -a2
+%{__mv} fzf-%{vendor_version}/vendor .
 %{__mv} fzf.vim-%{fzfvimrev}* fzf.vim
 %{__sed} -i -e "s@let s:bin_dir = .*@let s:bin_dir = '%{_datadir}/fzf/vim/bin/'@" fzf.vim/autoload/fzf/vim.vim
 %{__sed} -i -e '1s,.*env bash,#!/bin/bash,' fzf.vim/bin/preview.sh
