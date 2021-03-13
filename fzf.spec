@@ -28,7 +28,7 @@ BuildRequires:	golang >= 1.13
 BuildRequires:	sed >= 4.0
 BuildRequires:	tar >= 1:1.22
 BuildRequires:	xz
-ExclusiveArch:	%{x8664} armv5l armv5tel armv5tejl armv6l armv6hl armv7l armv7hl armv7hnl armv8l armv8hll armv8hnl armv8hcnl aarch64 ppc64le
+ExclusiveArch:	%{ix86} %{x8664} %{arm} aarch64 mips64 mips64le ppc64 ppc64le s390x
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %description
@@ -89,26 +89,10 @@ Documentation for fzf Vim plugin.
 %{__sed} -i -e '1s,.*env bash,#!/bin/bash,' fzf.vim/bin/preview.sh
 %{__sed} -i -e '1s,.*env perl,#!%{__perl},' fzf.vim/bin/tags.pl
 
+%{__mkdir_p} .go-cache
+
 %build
-%{__make} \
-%ifarch armv5tl armv5tel arm5tejl
-	UNAME_M=armv5l \
-%else
-%ifarch armv6l armv6hl
-	UNAME_M=armv6l \
-%else
-%ifarch armv7l armv7hl armv7hnl
-	UNAME_M=armv6l \
-%else
-%ifarch armv8l armv8hl armv8hnl armv8hcnl
-	UNAME_M=armv8l \
-%else
-	UNAME_M=%{_target_cpu} \
-%endif
-%endif
-%endif
-%endif
-	FZF_VERSION=%{version} FZF_REVISION=%{fzfrev} GOFLAGS=-mod=vendor
+GOCACHE="$(pwd)/.go-cache" go build -v -mod=vendor -ldflags='-X main.version=%{version} -X main.revision=%{fzfrev}' -o target/fzf
 
 %install
 rm -rf $RPM_BUILD_ROOT
@@ -116,7 +100,7 @@ rm -rf $RPM_BUILD_ROOT
 install -d $RPM_BUILD_ROOT{%{_bindir},%{_datadir}/fzf/vim/bin,%{_mandir}/man1,%{bash_compdir},%{zsh_compdir}}
 install -d $RPM_BUILD_ROOT%{_datadir}/vim/{doc,autoload,plugin/fzf}
 
-cp -p target/fzf-linux* $RPM_BUILD_ROOT%{_bindir}/fzf
+cp -p target/fzf $RPM_BUILD_ROOT%{_bindir}/fzf
 cp -p man/man1/fzf.1 $RPM_BUILD_ROOT%{_mandir}/man1
 cp -p shell/completion.bash $RPM_BUILD_ROOT%{_datadir}/fzf
 cp -p shell/key-bindings.bash $RPM_BUILD_ROOT%{_datadir}/fzf
