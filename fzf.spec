@@ -9,7 +9,7 @@
 Summary:	A command-line fuzzy finder written in Go
 Name:		fzf
 Version:	0.27.0
-Release:	1
+Release:	2
 License:	MIT
 Group:		Applications/Shells
 #Source0Download: https://github.com/junegunn/fzf/releases
@@ -25,11 +25,14 @@ Source2:	https://github.com/junegunn/fzf.vim/archive/%{fzfvimrev}/fzf.vim-%{fzfv
 # Source2-md5:	1a4ec38922f1a9b0483d2c7b4a1cc1a9
 URL:		https://github.com/junegunn/fzf
 BuildRequires:	golang >= 1.13
+BuildRequires:	rpmbuild(macros) >= 2.005
 BuildRequires:	sed >= 4.0
 BuildRequires:	tar >= 1:1.22
 BuildRequires:	xz
 ExclusiveArch:	%{ix86} %{x8664} %{arm} aarch64 mips64 mips64le ppc64 ppc64le s390x
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
+
+%define		_debugsource_packages	0
 
 %description
 fzf is a general-purpose command-line fuzzy finder.
