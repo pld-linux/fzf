@@ -68,6 +68,7 @@ Requires:	%{name} >= 0.23.0
 Requires:	file
 Requires:	vim-rt
 Suggests:	highlight
+Suggests:	ripgrep
 Suggests:	the_silver_searcher
 BuildArch:	noarch
 
