@@ -25,6 +25,7 @@ Source2:	https://github.com/junegunn/fzf.vim/archive/%{fzfvimrev}/fzf.vim-%{fzfv
 # Source2-md5:	498bb479ca34cff6116c3c7184476d63
 URL:		https://github.com/junegunn/fzf
 BuildRequires:	golang >= 1.13
+BuildRequires:	rpm-build >= 4.6
 BuildRequires:	rpmbuild(macros) >= 2.005
 BuildRequires:	sed >= 4.0
 BuildRequires:	tar >= 1:1.22
