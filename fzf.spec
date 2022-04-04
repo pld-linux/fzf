@@ -26,11 +26,11 @@ Source2:	https://github.com/junegunn/fzf.vim/archive/%{fzfvimrev}/fzf.vim-%{fzfv
 URL:		https://github.com/junegunn/fzf
 BuildRequires:	golang >= 1.13
 BuildRequires:	rpm-build >= 4.6
-BuildRequires:	rpmbuild(macros) >= 2.005
+BuildRequires:	rpmbuild(macros) >= 2.009
 BuildRequires:	sed >= 4.0
 BuildRequires:	tar >= 1:1.22
 BuildRequires:	xz
-ExclusiveArch:	%{ix86} %{x8664} %{arm} aarch64 mips64 mips64le ppc64 ppc64le s390x
+ExclusiveArch:	%go_arches
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %define		_debugsource_packages	0
@@ -97,7 +97,7 @@ Documentation for fzf Vim plugin.
 %{__mkdir_p} .go-cache
 
 %build
-GOCACHE="$(pwd)/.go-cache" go build -v -mod=vendor -ldflags='-X main.version=%{version} -X main.revision=%{fzfrev}' -o target/fzf
+%__go build -v -mod=vendor -ldflags='-X main.version=%{version} -X main.revision=%{fzfrev}' -o target/fzf
 
 %install
 rm -rf $RPM_BUILD_ROOT
