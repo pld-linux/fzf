@@ -8,13 +8,13 @@
 
 Summary:	A command-line fuzzy finder written in Go
 Name:		fzf
-Version:	0.29.0
+Version:	0.30.0
 Release:	1
 License:	MIT
 Group:		Applications/Shells
 #Source0Download: https://github.com/junegunn/fzf/releases
 Source0:	https://github.com/junegunn/fzf/archive/%{version}/%{name}-%{version}.tar.gz
-# Source0-md5:	14e78c2e66dd98b8e968b6c8fb4c14dd
+# Source0-md5:	509cde51b5a98dbe9c79092d6fbf3e6a
 # cd fzf-%{version}
 # go mod vendor
 # cd ..
