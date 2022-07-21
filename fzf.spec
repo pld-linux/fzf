@@ -46,7 +46,7 @@ commits, etc.
 Summary:	bash-completion for fzf
 Group:		Applications/Shells
 Requires:	%{name} = %{version}-%{release}
-Requires:	bash-completion >= 2.0
+Requires:	bash-completion >= 1:2.0
 BuildArch:	noarch
 
 %description -n bash-completion-fzf
