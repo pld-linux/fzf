@@ -3,6 +3,7 @@
 
 %define		fzfrev		04d0b02
 %define		fzfvimrev	9ceac71
+%define		fzfgitrev	a48b941
 %define		vendor_version	0.34.0
 
 Summary:	A command-line fuzzy finder written in Go
@@ -22,6 +23,9 @@ Source1:	%{name}-vendor-%{vendor_version}.tar.xz
 # Source1-md5:	cd1672b3da7985ddc0709862274a007f
 Source2:	https://github.com/junegunn/fzf.vim/archive/%{fzfvimrev}/fzf.vim-%{fzfvimrev}.tar.gz
 # Source2-md5:	cf33165a5e500c85838fa994683b2e5d
+Source3:	https://github.com/junegunn/fzf-git.sh/archive/%{fzfgitrev}/fzf-git.sh-%{fzfgitrev}.tar.gz
+# Source3-md5:	672c3efba11c015c5d282562553eac07
+Patch0:		fzf-git-awk.patch
 URL:		https://github.com/junegunn/fzf
 BuildRequires:	golang >= 1.13
 BuildRequires:	rpm-build >= 4.6
@@ -71,6 +75,21 @@ BuildArch:	noarch
 %description -n zsh-completion-fzf
 zsh-completion for fzf.
 
+%package git-sh
+Summary:	bash and zsh key bindings for Git objects, powered by fzf
+Group:		Applications/Shells
+Requires:	%{name}-tmux
+Requires:	awk
+Requires:	coreutils
+Requires:	git-core
+Requires:	grep
+Requires:	sed
+Suggests:	xdg-utils
+BuildArch:	noarch
+
+%description git-sh
+bash and zsh key bindings for Git objects, powered by fzf.
+
 %package -n vim-plugin-fzf
 Summary:	fzf integration for Vim
 Group:		Applications/Editors/Vim
@@ -96,9 +115,13 @@ BuildArch:	noarch
 Documentation for fzf Vim plugin.
 
 %prep
-%setup -q -a1 -a2
+%setup -q -a1 -a2 -a3
 %{__mv} fzf-%{vendor_version}/vendor .
 %{__mv} fzf.vim-%{fzfvimrev}* fzf.vim
+%{__mv} fzf-git.sh-%{fzfgitrev}* fzf-git
+cd fzf-git
+%patch0
+cd ..
 %{__sed} -i -e "s@let s:bin_dir = .*@let s:bin_dir = '%{_datadir}/fzf/vim/bin/'@" fzf.vim/autoload/fzf/vim.vim
 %{__sed} -i -e '1s,.*env bash,#!/bin/bash,' fzf.vim/bin/preview.sh bin/fzf-tmux
 %{__sed} -i -e '1s,.*env perl,#!%{__perl},' fzf.vim/bin/tags.pl
@@ -121,6 +144,7 @@ cp -p shell/completion.bash $RPM_BUILD_ROOT%{_datadir}/fzf
 cp -p shell/key-bindings.bash $RPM_BUILD_ROOT%{_datadir}/fzf
 cp -p shell/completion.zsh $RPM_BUILD_ROOT%{_datadir}/fzf
 cp -p shell/key-bindings.zsh $RPM_BUILD_ROOT%{_datadir}/fzf
+cp -p fzf-git/fzf-git.sh $RPM_BUILD_ROOT%{_datadir}/fzf
 cp -rp fzf.vim/autoload/fzf $RPM_BUILD_ROOT%{_datadir}/vim/autoload
 cp -p plugin/fzf.vim $RPM_BUILD_ROOT%{_datadir}/vim/plugin/fzf.vim
 cp -p fzf.vim/plugin/fzf.vim $RPM_BUILD_ROOT%{_datadir}/vim/plugin/fzf/fzf.vim
@@ -156,6 +180,11 @@ rm -rf $RPM_BUILD_ROOT
 %defattr(644,root,root,755)
 %{_datadir}/fzf/completion.zsh
 %{_datadir}/fzf/key-bindings.zsh
+
+%files git-sh
+%defattr(644,root,root,755)
+%doc fzf-git/README.md
+%{_datadir}/fzf/fzf-git.sh
 
 %files -n vim-plugin-fzf
 %defattr(644,root,root,755)
