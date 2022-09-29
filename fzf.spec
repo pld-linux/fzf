@@ -1,6 +1,5 @@
 # TODO:
 # - package vendored modules
-# - package fzf-tmux
 
 %define		fzfrev		04d0b02
 %define		fzfvimrev	9ceac71
@@ -41,6 +40,16 @@ fzf is a general-purpose command-line fuzzy finder.
 It's an interactive Unix filter for command-line that can be used with
 any list; files, command history, processes, hostnames, bookmarks, git
 commits, etc.
+
+%package tmux
+Summary:	Script for starting fzf in tmux pane
+Requires:	%{name} = %{version}-%{release}
+Requires:	coreutils
+Requires:	tmux
+BuildArch:	noarch
+
+%description tmux
+Script for starting fzf in tmux pane.
 
 %package -n bash-completion-fzf
 Summary:	bash-completion for fzf
@@ -91,7 +100,7 @@ Documentation for fzf Vim plugin.
 %{__mv} fzf-%{vendor_version}/vendor .
 %{__mv} fzf.vim-%{fzfvimrev}* fzf.vim
 %{__sed} -i -e "s@let s:bin_dir = .*@let s:bin_dir = '%{_datadir}/fzf/vim/bin/'@" fzf.vim/autoload/fzf/vim.vim
-%{__sed} -i -e '1s,.*env bash,#!/bin/bash,' fzf.vim/bin/preview.sh
+%{__sed} -i -e '1s,.*env bash,#!/bin/bash,' fzf.vim/bin/preview.sh bin/fzf-tmux
 %{__sed} -i -e '1s,.*env perl,#!%{__perl},' fzf.vim/bin/tags.pl
 
 %{__mkdir_p} .go-cache
@@ -106,6 +115,7 @@ install -d $RPM_BUILD_ROOT{%{_bindir},%{_datadir}/fzf/vim/bin,%{_mandir}/man1,%{
 install -d $RPM_BUILD_ROOT%{_datadir}/vim/{doc,autoload,plugin/fzf}
 
 cp -p target/fzf $RPM_BUILD_ROOT%{_bindir}/fzf
+cp -p bin/fzf-tmux $RPM_BUILD_ROOT%{_bindir}/fzf-tmux
 cp -p man/man1/fzf.1 $RPM_BUILD_ROOT%{_mandir}/man1
 cp -p shell/completion.bash $RPM_BUILD_ROOT%{_datadir}/fzf
 cp -p shell/key-bindings.bash $RPM_BUILD_ROOT%{_datadir}/fzf
@@ -132,6 +142,10 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_bindir}/fzf
 %dir %{_datadir}/fzf
 %{_mandir}/man1/fzf.1*
+
+%files tmux
+%defattr(644,root,root,755)
+%attr(755,root,root) %{_bindir}/fzf-tmux
 
 %files -n bash-completion-fzf
 %defattr(644,root,root,755)
