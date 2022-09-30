@@ -1,5 +1,6 @@
 1. disable fish as not packaged and creates broken symlinks
 1. disabled download as we pre-package
+1. fix paths to completions
 
 --- fzf-0.34.0/install~	2022-09-30 09:21:44.085976824 +0300
 +++ fzf-0.34.0/install	2022-09-30 09:29:08.782477314 +0300
