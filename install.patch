@@ -1,0 +1,36 @@
+1. disable fish as not packaged and creates broken symlinks
+1. disabled download as we pre-package
+
+--- fzf-0.34.0/install~	2022-09-30 09:21:44.085976824 +0300
++++ fzf-0.34.0/install	2022-09-30 09:29:08.782477314 +0300
+@@ -6,7 +6,7 @@
+ auto_completion=
+ key_bindings=
+ update_config=2
+-shells="bash zsh fish"
++shells="bash zsh"
+ prefix='~/.fzf'
+ prefix_expand=~/.fzf
+ fish_dir=${XDG_CONFIG_HOME:-$HOME/.config}/fish
+@@ -163,8 +163,9 @@
+   chmod +x fzf && check_binary
+ }
+ 
+-# Try to download binary executable
+ archi=$(uname -sm)
++download() {
++# Try to download binary executable
+ binary_available=1
+ binary_error=""
+ case "$archi" in
+@@ -184,6 +185,10 @@
+   Windows*\ *64)   download fzf-$version-windows_amd64.zip    ;;
+   *)               binary_available=0 binary_error=1 ;;
+ esac
++}
++
++# pre-packaged, so always true
++binary_available=1 binary_error=""
+ 
+ cd "$fzf_base"
+ if [ -n "$binary_error" ]; then

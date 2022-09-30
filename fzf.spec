@@ -26,6 +26,7 @@ Source2:	https://github.com/junegunn/fzf.vim/archive/%{fzfvimrev}/fzf.vim-%{fzfv
 Source3:	https://github.com/junegunn/fzf-git.sh/archive/%{fzfgitrev}/fzf-git.sh-%{fzfgitrev}.tar.gz
 # Source3-md5:	672c3efba11c015c5d282562553eac07
 Patch0:		fzf-git-awk.patch
+Patch1:		install.patch
 URL:		https://github.com/junegunn/fzf
 BuildRequires:	golang >= 1.13
 BuildRequires:	rpm-build >= 4.6
@@ -122,8 +123,9 @@ Documentation for fzf Vim plugin.
 cd fzf-git
 %patch0
 cd ..
+%patch1 -p1
 %{__sed} -i -e "s@let s:bin_dir = .*@let s:bin_dir = '%{_datadir}/fzf/vim/bin/'@" fzf.vim/autoload/fzf/vim.vim
-%{__sed} -i -e '1s,.*env bash,#!/bin/bash,' fzf.vim/bin/preview.sh bin/fzf-tmux
+%{__sed} -i -e '1s,.*env bash,#!/bin/bash,' fzf.vim/bin/preview.sh bin/fzf-tmux install
 %{__sed} -i -e '1s,.*env perl,#!%{__perl},' fzf.vim/bin/tags.pl
 
 %{__mkdir_p} .go-cache
@@ -138,6 +140,7 @@ install -d $RPM_BUILD_ROOT{%{_bindir},%{_datadir}/fzf/vim/bin,%{_mandir}/man1,%{
 install -d $RPM_BUILD_ROOT%{_datadir}/vim/{doc,autoload,plugin/fzf}
 
 install -p target/fzf $RPM_BUILD_ROOT%{_bindir}/fzf
+install -p install $RPM_BUILD_ROOT%{_bindir}/fzf-install
 install -p bin/fzf-tmux $RPM_BUILD_ROOT%{_bindir}/fzf-tmux
 cp -p man/man1/fzf.1 $RPM_BUILD_ROOT%{_mandir}/man1
 cp -p shell/completion.bash $RPM_BUILD_ROOT%{_datadir}/fzf
@@ -164,6 +167,7 @@ rm -rf $RPM_BUILD_ROOT
 %defattr(644,root,root,755)
 %doc BUILD.md CHANGELOG.md README.md
 %attr(755,root,root) %{_bindir}/fzf
+%attr(755,root,root) %{_bindir}/fzf-install
 %dir %{_datadir}/fzf
 %{_mandir}/man1/fzf.1*
 
