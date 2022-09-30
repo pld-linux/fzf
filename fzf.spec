@@ -157,6 +157,13 @@ cp -p fzf.vim/bin/{preview.sh,tags.pl} $RPM_BUILD_ROOT%{_datadir}/fzf/vim/bin
 %clean
 rm -rf $RPM_BUILD_ROOT
 
+%post
+%banner -o -e %{name} <<EOF
+==> Caveats
+To install useful keybindings and fuzzy completion:
+  fzf-install
+EOF
+
 %post -n vim-plugin-fzf-doc
 %vim_doc_helptags
 
