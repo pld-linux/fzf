@@ -137,8 +137,8 @@ rm -rf $RPM_BUILD_ROOT
 install -d $RPM_BUILD_ROOT{%{_bindir},%{_datadir}/fzf/vim/bin,%{_mandir}/man1,%{bash_compdir},%{zsh_compdir}}
 install -d $RPM_BUILD_ROOT%{_datadir}/vim/{doc,autoload,plugin/fzf}
 
-cp -p target/fzf $RPM_BUILD_ROOT%{_bindir}/fzf
-cp -p bin/fzf-tmux $RPM_BUILD_ROOT%{_bindir}/fzf-tmux
+install -p target/fzf $RPM_BUILD_ROOT%{_bindir}/fzf
+install -p bin/fzf-tmux $RPM_BUILD_ROOT%{_bindir}/fzf-tmux
 cp -p man/man1/fzf.1 $RPM_BUILD_ROOT%{_mandir}/man1
 cp -p shell/completion.bash $RPM_BUILD_ROOT%{_datadir}/fzf
 cp -p shell/key-bindings.bash $RPM_BUILD_ROOT%{_datadir}/fzf
