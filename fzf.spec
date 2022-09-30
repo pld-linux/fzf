@@ -3,7 +3,7 @@
 
 %define		fzfrev		04d0b02
 %define		fzfvimrev	9ceac71
-%define		fzfgitrev	a48b941
+%define		fzfgitrev	9190e1b
 %define		vendor_version	0.34.0
 
 Summary:	A command-line fuzzy finder written in Go
@@ -24,9 +24,8 @@ Source1:	%{name}-vendor-%{vendor_version}.tar.xz
 Source2:	https://github.com/junegunn/fzf.vim/archive/%{fzfvimrev}/fzf.vim-%{fzfvimrev}.tar.gz
 # Source2-md5:	cf33165a5e500c85838fa994683b2e5d
 Source3:	https://github.com/junegunn/fzf-git.sh/archive/%{fzfgitrev}/fzf-git.sh-%{fzfgitrev}.tar.gz
-# Source3-md5:	672c3efba11c015c5d282562553eac07
-Patch0:		fzf-git-awk.patch
-Patch1:		install.patch
+# Source3-md5:	66a5b104f7e6f67c0b4f8556f1a22583
+Patch0:		install.patch
 URL:		https://github.com/junegunn/fzf
 BuildRequires:	golang >= 1.13
 BuildRequires:	rpm-build >= 4.6
@@ -120,10 +119,7 @@ Documentation for fzf Vim plugin.
 %{__mv} fzf-%{vendor_version}/vendor .
 %{__mv} fzf.vim-%{fzfvimrev}* fzf.vim
 %{__mv} fzf-git.sh-%{fzfgitrev}* fzf-git
-cd fzf-git
-%patch0
-cd ..
-%patch1 -p1
+%patch0 -p1
 %{__sed} -i -e "s@let s:bin_dir = .*@let s:bin_dir = '%{_datadir}/fzf/vim/bin/'@" fzf.vim/autoload/fzf/vim.vim
 %{__sed} -i -e '1s,.*env bash,#!/bin/bash,' fzf.vim/bin/preview.sh bin/fzf-tmux install
 %{__sed} -i -e '1s,.*env perl,#!%{__perl},' fzf.vim/bin/tags.pl
