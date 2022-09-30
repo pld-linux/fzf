@@ -34,3 +34,37 @@
  
  cd "$fzf_base"
  if [ -n "$binary_error" ]; then
+@@ -247,12 +252,12 @@
+   src=${prefix_expand}.${shell}
+   echo -n "Generate $src ... "
+ 
+-  fzf_completion="[[ \$- == *i* ]] && source \"$fzf_base/shell/completion.${shell}\" 2> /dev/null"
++  fzf_completion="[[ \$- == *i* ]] && source \"/usr/share/fzf/completion.${shell}\" 2> /dev/null"
+   if [ $auto_completion -eq 0 ]; then
+     fzf_completion="# $fzf_completion"
+   fi
+ 
+-  fzf_key_bindings="source \"$fzf_base/shell/key-bindings.${shell}\""
++  fzf_key_bindings="source \"/usr/share/fzf/key-bindings.${shell}\""
+   if [ $key_bindings -eq 0 ]; then
+     fzf_key_bindings="# $fzf_key_bindings"
+   fi
+@@ -260,9 +265,6 @@
+   cat > "$src" << EOF
+ # Setup fzf
+ # ---------
+-if [[ ! "\$PATH" == *$fzf_base_esc/bin* ]]; then
+-  PATH="\${PATH:+\${PATH}:}$fzf_base/bin"
+-fi
+ 
+ # Auto-completion
+ # ---------------
+@@ -288,7 +290,7 @@
+   fish_binding="${fish_dir}/functions/fzf_key_bindings.fish"
+   if [ $key_bindings -ne 0 ]; then
+     echo -n "Symlink $fish_binding ... "
+-    ln -sf "$fzf_base/shell/key-bindings.fish" \
++    ln -sf "/usr/share/fzf/key-bindings.fish" \
+            "$fish_binding" && echo "OK" || echo "Failed"
+   else
+     echo -n "Removing $fish_binding ... "
