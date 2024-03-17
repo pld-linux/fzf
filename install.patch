@@ -58,14 +58,5 @@
 -  PATH="\${PATH:+\${PATH}:}$fzf_base/bin"
 -fi
  
- # Auto-completion
- # ---------------
-@@ -288,7 +290,7 @@
-   fish_binding="${fish_dir}/functions/fzf_key_bindings.fish"
-   if [ $key_bindings -ne 0 ]; then
-     echo -n "Symlink $fish_binding ... "
--    ln -sf "$fzf_base/shell/key-bindings.fish" \
-+    ln -sf "/usr/share/fzf/key-bindings.fish" \
-            "$fish_binding" && echo "OK" || echo "Failed"
-   else
-     echo -n "Removing $fish_binding ... "
+ EOF
+ 
