@@ -119,7 +119,7 @@ Documentation for fzf Vim plugin.
 %{__mv} fzf-%{vendor_version}/vendor .
 %{__mv} fzf.vim-%{fzfvimrev}* fzf.vim
 %{__mv} fzf-git.sh-%{fzfgitrev}* fzf-git
-%patch0 -p1
+%patch -P0 -p1
 %{__sed} -i -e "s@let s:bin_dir = .*@let s:bin_dir = '%{_datadir}/fzf/vim/bin/'@" fzf.vim/autoload/fzf/vim.vim
 %{__sed} -i -e '1s,.*env bash,#!/bin/bash,' fzf.vim/bin/preview.sh bin/fzf-tmux install
 %{__sed} -i -e '1s,.*env perl,#!%{__perl},' fzf.vim/bin/tags.pl
