@@ -36,7 +36,7 @@ BuildRequires:	xz
 ExclusiveArch:	%go_arches
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
-%define		_debugsource_packages	0
+%undefine	_debugsource_packages
 
 %description
 fzf is a general-purpose command-line fuzzy finder.
