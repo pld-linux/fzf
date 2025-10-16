@@ -18,15 +18,15 @@
  }
  
 -# Try to download binary executable
- archi=$(uname -smo)
+ archi=$(uname -smo 2> /dev/null || uname -sm)
 +download() {
 +# Try to download binary executable
  binary_available=1
  binary_error=""
  case "$archi" in
 @@ -184,6 +185,10 @@
-   Windows*\ *64*)          download fzf-$version-windows_amd64.zip    ;;
-   *)                       binary_available=0 binary_error=1          ;;
+   Windows*\ *64*) download fzf-$version-windows_amd64.zip ;;
+   *) binary_available=0 binary_error=1 ;;
  esac
 +}
 +
