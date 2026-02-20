@@ -1,20 +1,20 @@
 # TODO:
 # - package vendored modules
 
-%define		fzfrev		8cdfb23
-%define		fzfvimrev	879db51
-%define		fzfgitrev	279050e
+%define		fzfrev		b908f7a
+%define		fzfvimrev	34a564c
+%define		fzfgitrev	34cd6c9
 %define		vendor_version	0.66.0
 
 Summary:	A command-line fuzzy finder written in Go
 Name:		fzf
-Version:	0.66.0
+Version:	0.68.0
 Release:	1
 License:	MIT
 Group:		Applications/Shells
 #Source0Download: https://github.com/junegunn/fzf/releases
 Source0:	https://github.com/junegunn/fzf/archive/v%{version}/%{name}-%{version}.tar.gz
-# Source0-md5:	e2b1ef1e3429e58f6114410f465b53d0
+# Source0-md5:	2d79bdf152f0af2145ccba6691bdbfbd
 # cd fzf-%{version}
 # go mod vendor
 # cd ..
@@ -22,9 +22,9 @@ Source0:	https://github.com/junegunn/fzf/archive/v%{version}/%{name}-%{version}.
 Source1:	%{name}-vendor-%{vendor_version}.tar.xz
 # Source1-md5:	5817cc5bb4b0b085a9f66c212a81d73f
 Source2:	https://github.com/junegunn/fzf.vim/archive/%{fzfvimrev}/fzf.vim-%{fzfvimrev}.tar.gz
-# Source2-md5:	9b86d3009e3bab714edd2cfaf859e773
+# Source2-md5:	5c916e68feac7cc12ee33f6b02611839
 Source3:	https://github.com/junegunn/fzf-git.sh/archive/%{fzfgitrev}/fzf-git.sh-%{fzfgitrev}.tar.gz
-# Source3-md5:	ec0044c9f7b62272e414b8c19249e663
+# Source3-md5:	238f027694e5cde999c0996e346d57bb
 Patch0:		install.patch
 URL:		https://github.com/junegunn/fzf
 BuildRequires:	golang >= 1.23.0

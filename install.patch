@@ -2,8 +2,8 @@
 1. disabled download as we pre-package
 1. fix paths to completions
 
---- fzf-0.34.0/install~	2022-09-30 09:21:44.085976824 +0300
-+++ fzf-0.34.0/install	2022-09-30 09:29:08.782477314 +0300
+--- fzf-0.68.0/install.orig	2026-02-20 03:03:46.000000000 +0100
++++ fzf-0.68.0/install	2026-02-20 15:24:27.955737193 +0100
 @@ -6,7 +6,7 @@
  auto_completion=
  key_bindings=
@@ -24,7 +24,7 @@
  binary_available=1
  binary_error=""
  case "$archi" in
-@@ -184,6 +185,10 @@
+@@ -189,6 +190,10 @@
    Windows*\ *64*) download fzf-$version-windows_amd64.zip ;;
    *) binary_available=0 binary_error=1 ;;
  esac
@@ -35,21 +35,17 @@
  
  cd "$fzf_base"
  if [ -n "$binary_error" ]; then
-@@ -247,12 +252,12 @@
+@@ -243,8 +248,8 @@
+ 
+ echo
+ for shell in $shells; do
+-  fzf_completion="source \"$fzf_base/shell/completion.${shell}\""
+-  fzf_key_bindings="source \"$fzf_base/shell/key-bindings.${shell}\""
++  fzf_completion="source \"/usr/share/fzf/completion.${shell}\""
++  fzf_key_bindings="source \"/usr/share/fzf/key-bindings.${shell}\""
+   [[ $shell == fish ]] && continue
    src=${prefix_expand}.${shell}
    echo -n "Generate $src ... "
- 
--  fzf_completion="source \"$fzf_base/shell/completion.${shell}\""
-+  fzf_completion="source \"/usr/share/fzf/completion.${shell}\""
-   if [ $auto_completion -eq 0 ]; then
-     fzf_completion="# $fzf_completion"
-   fi
- 
--  fzf_key_bindings="source \"$fzf_base/shell/key-bindings.${shell}\""
-+  fzf_key_bindings="source \"/usr/share/fzf/key-bindings.${shell}\""
-   if [ $key_bindings -eq 0 ]; then
-     fzf_key_bindings="# $fzf_key_bindings"
-   fi
 @@ -260,9 +265,6 @@
    cat > "$src" << EOF
  # Setup fzf
