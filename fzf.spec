@@ -1,20 +1,20 @@
 # TODO:
 # - package vendored modules
 
-%define		fzfrev		b908f7a
+%define		fzfrev		eacef5e
 %define		fzfvimrev	34a564c
 %define		fzfgitrev	34cd6c9
 %define		vendor_version	0.66.0
 
 Summary:	A command-line fuzzy finder written in Go
 Name:		fzf
-Version:	0.68.0
+Version:	0.70.0
 Release:	1
 License:	MIT
 Group:		Applications/Shells
 #Source0Download: https://github.com/junegunn/fzf/releases
 Source0:	https://github.com/junegunn/fzf/archive/v%{version}/%{name}-%{version}.tar.gz
-# Source0-md5:	2d79bdf152f0af2145ccba6691bdbfbd
+# Source0-md5:	7e2b37dd19a7559a0f8a405f05908a02
 # cd fzf-%{version}
 # go mod vendor
 # cd ..
