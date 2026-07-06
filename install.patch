@@ -8,7 +8,7 @@
  auto_completion=
  key_bindings=
  update_config=2
--shells="bash zsh fish"
+-shells="bash zsh fish nushell"
 +shells="bash zsh"
  prefix='~/.fzf'
  prefix_expand=~/.fzf
@@ -36,9 +36,9 @@
  cd "$fzf_base"
  if [ -n "$binary_error" ]; then
 @@ -243,8 +248,8 @@
- 
  echo
  for shell in $shells; do
+   [[ $shell == nushell ]] && continue
 -  fzf_completion="source \"$fzf_base/shell/completion.${shell}\""
 -  fzf_key_bindings="source \"$fzf_base/shell/key-bindings.${shell}\""
 +  fzf_completion="source \"/usr/share/fzf/completion.${shell}\""
